@@ -32,6 +32,10 @@ services:
       - "3002:3002"
     networks:
       - kong-net
+    volumes:
+      - ./services/products-service:/app
+      - ./shared:/app/shared
+      - /app/node_modules
 
   frontend:
     build:
