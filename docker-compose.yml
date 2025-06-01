@@ -1,0 +1,47 @@
+services:
+  kong:
+    build:
+      context: ./kong
+    environment:
+      KONG_DATABASE: off
+      KONG_DECLARATIVE_CONFIG: /usr/local/kong/kong.yml
+    ports:
+      - "8000:8000"
+      - "8443:8443"
+      - "7946:7946"
+      - "7946:7946/udp"
+    volumes:
+      - ./kong/kong.yml:/usr/local/kong/kong.yml
+    networks:
+      - kong-net
+
+  users-service:
+    build:
+      context: .
+      dockerfile: ./services/users-service/Dockerfile
+    ports:
+      - "3001:3001"
+    networks:
+      - kong-net
+
+  products-service:
+    build:
+      context: .
+      dockerfile: ./services/products-service/Dockerfile
+    ports:
+      - "3002:3002"
+    networks:
+      - kong-net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - kong-net
+
+networks:
+  kong-net:
+    name: kong-net
