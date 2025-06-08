@@ -16,7 +16,7 @@
         <!-- Auth Card -->
         <div class="bg-slate-900 rounded-lg p-8 shadow-xl">
           <h2 class="text-2xl font-semibold text-center mb-2">
-            {{ isLogin ? 'Sign In' : 'Create Account' }}
+            {{ isLogin ? 'Se connecter' : 'Create Account' }}
           </h2>
           <p class="text-gray-400 text-center mb-6">
             {{ isLogin ? 'Enter your credentials to access your account' : 'Sign up to join our community' }}
