@@ -62,7 +62,7 @@ app.post('/login', async (req, res) => {
     `
 
         if (users.length === 0) {
-            return res.status(401).json({ error: 'Invalid credentials' })
+            return res.status(401).json({ error: 'L\'utilisateur n\'existe pas' })
         }
 
         const user = users[0]
@@ -70,16 +70,16 @@ app.post('/login', async (req, res) => {
         // Comparer les mots de passe
         const passwordMatch = await bcrypt.compare(password, user.password)
         if (!passwordMatch) {
-            return res.status(401).json({ error: 'Invalid credentials' })
+            return res.status(401).json({ error: 'Mot de passe invalide' })
         }
 
         // Ici, tu peux générer un JWT ou un autre token d'authentification
         // Par exemple avec jsonwebtoken (à installer):
         // const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' })
 
-        res.json({ message: 'Login successful', userId: user.id })
+        res.json({ message: 'Login successful', username: user.username })
     } catch (err) {
-        res.status(500).json({ error: err.message })
+        res.status(500).json({ message: err.message })
     }
 })
 

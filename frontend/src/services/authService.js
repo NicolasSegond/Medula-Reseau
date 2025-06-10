@@ -2,12 +2,12 @@ import axios from 'axios'
 
 const API_URL = 'http://localhost:8000/users' // Proxyé via Kong
 
-export async function login({ username, password }) {
+export async function login({ email, password }) {
     try {
-        const res = await axios.post(`${API_URL}/login`, { username, password })
+        const res = await axios.post(`${API_URL}/login`, { email, password })
         return { success: true, message: `Bienvenue ${res.data.username}` }
     } catch (err) {
-        return { success: false, message: 'Identifiants invalides' }
+        return { success: false, message: 'Erreur lors de la connexion' + ' : ' + err.response?.data?.message || ''}
     }
 }
 
