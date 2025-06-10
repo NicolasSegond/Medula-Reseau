@@ -23,6 +23,10 @@ services:
       - "3001:3001"
     networks:
       - kong-net
+    volumes:
+      - ./services/users-service:/app
+      - ./shared:/app/shared
+      - /app/node_modules
 
   products-service:
     build:

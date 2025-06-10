@@ -1,7 +1,7 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
-import supabase from './shared/supabase.js'
+import supabase from './shared/db.js'
 
 dotenv.config()
 const app = express()

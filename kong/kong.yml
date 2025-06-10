@@ -10,6 +10,8 @@ services:
           - /users
         methods:
           - GET
+          - POST
+          - OPTIONS
         strip_path: true
     plugins:
       - name: cors
@@ -36,7 +38,7 @@ services:
           - /products
         methods:
           - GET
-        strip_path: true
+        strip_path: false
     plugins:
       - name: cors
         config:
