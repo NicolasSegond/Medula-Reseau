@@ -9,10 +9,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import AuthForm from '../components/AuthForm.vue'
 import Notification from '../components/NotificationComponent.vue'
 import Logo from '../components/LogoComponent.vue'
+import { ref } from 'vue'
 
 const notification = ref('')
 const handleAuthenticated = (message) => {
