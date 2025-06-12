@@ -8,8 +8,6 @@
     </p>
 
     <form @submit.prevent="submit" class="space-y-5">
-      <!-- En login, on utilise email + password ; en register, username + email + password -->
-
       <div v-if="!isLogin">
         <label for="username" class="block text-sm font-medium text-gray-400 mb-1">Nom d'utilisateur</label>
         <input v-model="form.username" id="username" type="text" required class="input text-white" />
@@ -29,28 +27,26 @@
         {{ isLogin ? 'Connexion' : 'Créer un compte' }}
       </button>
     </form>
-
-    <div class="mt-6 text-center">
-      <button class="text-indigo-400 hover:text-indigo-300 text-sm" v-if="isLogin">
-        Mot de passe oublié ?
-      </button>
-    </div>
-
-    <div class="mt-6 text-center">
-      <button @click="isLogin = !isLogin" class="text-indigo-400 hover:text-indigo-300 text-sm">
-        {{ isLogin ? "Pas encore de compte ? S'inscrire" : "Déjà inscrit ? Se connecter" }}
-      </button>
-    </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { login, register } from '@/services/authService'
+
+const props = defineProps({
+  mode: {
+    type: String,
+    default: 'login', // 'login' ou 'register'
+  },
+})
 
 const emit = defineEmits(['authenticated'])
 
-const isLogin = ref(true)
+const router = useRouter()
+const isLogin = ref(props.mode === 'login')
+
 const form = ref({
   username: '',
   email: '',
@@ -59,14 +55,15 @@ const form = ref({
 
 const submit = async () => {
   if (isLogin.value) {
-    // Pour login, on envoie email + password
     const { email, password } = form.value
     const res = await login({ email, password })
     emit('authenticated', res.message)
   } else {
-    // Pour register, on envoie username + email + password
     const res = await register(form.value)
     emit('authenticated', res.message)
+    if (res.success) {
+      router.push({ path: '/login', query: { message: res.message } })
+    }
   }
 }
 </script>
